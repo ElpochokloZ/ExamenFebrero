@@ -17,6 +17,7 @@ class AudioViewModel : ViewModel() {
         // Aquí puedes cargar tus canciones, por ejemplo, desde un recurso o una API
         _songs.value = listOf(
             Cancion("Voy a llevarte pa pr", "Bad Bunny", "3:45", R.raw.audiobadbunny),
+            Cancion("FATAL FANTASSY","Alvaro Diaz, Tainy","2:30",R.raw.audioalvarodiaz)
             // Agrega más canciones aquí
         )
     }

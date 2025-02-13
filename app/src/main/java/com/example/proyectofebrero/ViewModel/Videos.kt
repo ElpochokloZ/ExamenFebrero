@@ -1,9 +1,8 @@
 package com.example.proyectofebrero.ViewModel
 
-
-data class Cancion(
+data class Videos(
     val title:String,
-    val artist: String,
+    val description: String,
     val duration: String,
-    val audioResId: Int
+    val videoResId: Int
 )

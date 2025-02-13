@@ -1,6 +1,6 @@
 package com.example.proyectofebrero.View
 
-import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofebrero.R
 import com.example.proyectofebrero.ViewModel.AudioViewModel
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.MediaItem
 
 class Audio : Fragment() {
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var musicAdapter: MusicAdapter
     private lateinit var audioViewModel: AudioViewModel
-    private var mediaPlayer: MediaPlayer? = null
+    private var exoPlayer: ExoPlayer? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,7 @@ class Audio : Fragment() {
         // Configurar el adaptador
         audioViewModel.songs.observe(viewLifecycleOwner, Observer { songs ->
             musicAdapter = MusicAdapter(songs) { song ->
-                setSongDetails(song.title, song.artist, song.duration, song.audioResId)
+                setSongDetails(song.audioResId)
             }
             recyclerView.adapter = musicAdapter
         })
@@ -45,23 +46,28 @@ class Audio : Fragment() {
         return view
     }
 
-    private fun setSongDetails(title: String, artist: String, duration: String, audioResId: Int) {
-        // Liberar el MediaPlayer anterior si existe
-        mediaPlayer?.release()
-        mediaPlayer = MediaPlayer.create(requireContext(), audioResId)
-        mediaPlayer?.start()
+    private fun setSongDetails(audioResId: Int) {
+        // Liberar el ExoPlayer anterior si existe
+        exoPlayer?.release()
+
+        // Crear una nueva instancia de ExoPlayer
+        exoPlayer = ExoPlayer.Builder(requireContext()).build()
+
+        // Crear un MediaItem
+        val mediaItem = MediaItem.fromUri(Uri.parse("asset:///your_audio_file.mp3")) // Cambia esto según tu fuente de audio
+        exoPlayer?.setMediaItem(mediaItem)
+        exoPlayer?.prepare()
+        exoPlayer?.play()
     }
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        exoPlayer?.pause()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        exoPlayer?.release()
+        exoPlayer = null
     }
 }
