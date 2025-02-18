@@ -1,5 +1,6 @@
 package com.example.proyectofebrero.ViewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,14 +17,11 @@ class VideoViewModel : ViewModel() {
     }
 
     private fun loadVideos() {
-        // Aquí puedes cargar los videos desde una fuente (API, base de datos, etc.)
-        // Por ahora, vamos a usar una lista de videos de ejemplo
         val videoList = listOf(
             Videos(videoResId = R.raw.videogolf, title = "Video 1", description = "Descripción del Video 1", duration = "4:00")
-            //INTRODUCIR MAS VIDEOS
+            // Agrega más videos aquí
         )
-
-        // Actualizar el LiveData con la lista de videos
         _videos.value = videoList
+        Log.d("VideoViewModel", "Videos cargados: $videoList") // Agrega un log
     }
 }
