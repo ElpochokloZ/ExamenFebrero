@@ -3,6 +3,7 @@ package com.example.proyectofebrero.View
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofebrero.R
@@ -10,17 +11,24 @@ import com.example.proyectofebrero.ViewModel.Cancion
 
 class MusicAdapter(
     private val songs: List<Cancion>, // Lista de canciones
-    private val onClick: (Cancion) -> Unit // Función que se llama al hacer clic en un ítem
+    private val onClick: (Cancion) -> Unit, // Función que se llama al hacer clic en un ítem
+    private val onPlayClick: (Cancion) -> Unit // Función que se llama al hacer clic en el botón de reproducción
 ) : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
 
     inner class MusicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val songTitle: TextView = itemView.findViewById(R.id.musicTitle)
         val songArtist: TextView = itemView.findViewById(R.id.itemSongArtist)
         val songDuration: TextView = itemView.findViewById(R.id.itemSongDuration)
+        val buttonMusic: Button = itemView.findViewById(R.id.button_music)
 
         init {
             itemView.setOnClickListener {
-                onClick(songs[adapterPosition]) // Llamar a la función onClick con la canción correspondiente
+                onClick(songs[bindingAdapterPosition]) // Usar bindingAdapterPosition
+            }
+
+            // Configurar el clic en el botón de reproducción
+            buttonMusic.setOnClickListener {
+                onPlayClick(songs[bindingAdapterPosition]) // Usar bindingAdapterPosition
             }
         }
     }

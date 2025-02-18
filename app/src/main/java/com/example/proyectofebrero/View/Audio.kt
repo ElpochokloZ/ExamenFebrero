@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofebrero.R
 import com.example.proyectofebrero.ViewModel.AudioViewModel
+import com.example.proyectofebrero.ViewModel.Cancion
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 
@@ -37,9 +38,12 @@ class Audio : Fragment() {
 
         // Configurar el adaptador
         audioViewModel.songs.observe(viewLifecycleOwner, Observer { songs ->
-            musicAdapter = MusicAdapter(songs) { song ->
-                setSongDetails(song.audioResId)
-            }
+            musicAdapter = MusicAdapter(songs, { song ->
+                // Manejar el clic en el ítem (opcional)
+            }, { song ->
+                // Manejar el clic en el botón de reproducción
+                setSongDetails(song.audioResId) // Asegúrate de que audioResId sea el correcto
+            })
             recyclerView.adapter = musicAdapter
         })
 
@@ -54,10 +58,12 @@ class Audio : Fragment() {
         exoPlayer = ExoPlayer.Builder(requireContext()).build()
 
         // Crear un MediaItem
-        val mediaItem = MediaItem.fromUri(Uri.parse("asset:///your_audio_file.mp3")) // Cambia esto según tu fuente de audio
+        val mediaItem = MediaItem.fromUri(Uri.parse("android.resource://${requireContext().packageName}/raw/$audioResId"))
+
+        // Configurar el ExoPlayer con el MediaItem
         exoPlayer?.setMediaItem(mediaItem)
         exoPlayer?.prepare()
-        exoPlayer?.play()
+        exoPlayer?.playWhenReady = true // Asegúrate de que el ExoPlayer comience a reproducir
     }
 
     override fun onPause() {
