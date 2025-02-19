@@ -18,7 +18,7 @@ class VideoViewModel : ViewModel() {
 
     private fun loadVideos() {
         val videoList = listOf(
-            Videos(videoResId = R.raw.videogolf, title = "Video 1", description = "Descripción del Video 1", duration = "4:00")
+            Videos(videoResId = R.raw.videogolf, title = "Video Golf", description = "Video sobre historia del golf", duration = "4:00")
             // Agrega más videos aquí
         )
         _videos.value = videoList

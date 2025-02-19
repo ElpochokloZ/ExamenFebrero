@@ -1,7 +1,8 @@
 package com.example.proyectofebrero.View
 
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,21 +12,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofebrero.R
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
 import com.example.proyectofebrero.ViewModel.VideoViewModel
 
 class Video : Fragment() {
     private lateinit var recyclerView: RecyclerView
-    private lateinit var videoAdapter: VideoAdapter // Asegúrate de tener un adaptador para videos
+    private lateinit var videoAdapter: VideoAdapter
     private lateinit var videoViewModel: VideoViewModel
-    private var exoPlayer: ExoPlayer? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        // Inflar el diseño del fragmento
         val view = inflater.inflate(R.layout.fragment_video, container, false)
 
         // Inicializar el RecyclerView
@@ -38,7 +34,7 @@ class Video : Fragment() {
         // Configurar el adaptador
         videoViewModel.videos.observe(viewLifecycleOwner, Observer { videos ->
             videoAdapter = VideoAdapter(videos) { video ->
-                playVideo(video.videoResId)
+                goToPlayerPage(video.videoResId) // Navegar a la actividad del reproductor
             }
             recyclerView.adapter = videoAdapter
         })
@@ -46,28 +42,22 @@ class Video : Fragment() {
         return view
     }
 
-    private fun playVideo(videoResId: Int) {
-        // Liberar el ExoPlayer anterior si existe
-        exoPlayer?.release()
-
-        // Crear una nueva instancia de ExoPlayer
-        exoPlayer = ExoPlayer.Builder(requireContext()).build()
-
-        // Crear un MediaItem
-        val mediaItem = MediaItem.fromUri(Uri.parse("asset:///your_video_file.mp4")) // Cambia esto según tu fuente de video
-        exoPlayer?.setMediaItem(mediaItem)
-        exoPlayer?.prepare()
-        exoPlayer?.play()
+    private fun goToPlayerPage(videoResId: Int) {
+        if (videoResId != -1) { // Asegúrate de que el ID sea válido
+            val intent = Intent(requireContext(), MediaPlayerActivity::class.java)
+            intent.putExtra("VIDEO_RES_ID", videoResId)
+            startActivity(intent)
+        } else {
+            // Manejo de error si el videoResId no es válido
+            Log.e("VideoFragment", "Invalid video resource ID: $videoResId")
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        exoPlayer?.pause()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        exoPlayer?.release()
-        exoPlayer = null
     }
 }

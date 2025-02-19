@@ -13,7 +13,6 @@ class VideoAdapter(
     private val onVideoClick: (Videos) -> Unit // Callback para manejar el clic en un video
 ) : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
-    // ViewHolder para cada elemento de la lista
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.video_title)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.video_description)

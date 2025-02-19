@@ -12,7 +12,7 @@ import com.example.proyectofebrero.ViewModel.Cancion
 class MusicAdapter(
     private val songs: List<Cancion>, // Lista de canciones
     private val onClick: (Cancion) -> Unit, // Función que se llama al hacer clic en un ítem
-    private val onPlayClick: (Cancion) -> Unit // Función que se llama al hacer clic en el botón de reproducción
+    private val onPlayClick: (Int) -> Unit // Cambiar a un Int para pasar el audioResId
 ) : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
 
     inner class MusicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,13 +22,17 @@ class MusicAdapter(
         val buttonMusic: Button = itemView.findViewById(R.id.button_music)
 
         init {
-            itemView.setOnClickListener {
-                onClick(songs[bindingAdapterPosition]) // Usar bindingAdapterPosition
-            }
-
             // Configurar el clic en el botón de reproducción
             buttonMusic.setOnClickListener {
-                onPlayClick(songs[bindingAdapterPosition]) // Usar bindingAdapterPosition
+                val position = bindingAdapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onPlayClick(songs[position].audioResId) // Llama al callback con el audioResId
+                }
+            }
+
+            // Manejar el clic en el ítem (opcional)
+            itemView.setOnClickListener {
+                onClick(songs[bindingAdapterPosition])
             }
         }
     }
