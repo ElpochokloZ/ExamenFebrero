@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofebrero.R
-import com.example.proyectofebrero.ViewModel.Cancion
+import com.example.proyectofebrero.Model.Cancion
 
 class MusicAdapter(
     private val songs: List<Cancion>, // Lista de canciones
@@ -22,18 +22,14 @@ class MusicAdapter(
         val buttonMusic: Button = itemView.findViewById(R.id.button_music)
 
         init {
-            // Configurar el clic en el botón de reproducción
+            // Configurar el clic en el botón de reproducción del item_music
             buttonMusic.setOnClickListener {
                 val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    onPlayClick(songs[position].audioResId) // Llama al callback con el audioResId
+                    onPlayClick(songs[position].audioResId) // Llama a el audio de la lista con el audioResId
                 }
             }
 
-            // Manejar el clic en el ítem (opcional)
-            itemView.setOnClickListener {
-                onClick(songs[bindingAdapterPosition])
-            }
         }
     }
 

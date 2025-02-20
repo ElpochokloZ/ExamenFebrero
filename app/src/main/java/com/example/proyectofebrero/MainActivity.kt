@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    //Metodo para llamar al audioFragment
     private fun showAudioFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, Audio())
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    //Metodo para llamar el videoFragment
     private fun showVideoFragment() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, Video())

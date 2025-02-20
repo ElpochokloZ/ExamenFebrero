@@ -3,26 +3,28 @@ package com.example.proyectofebrero.View
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.proyectofebrero.R
-import com.example.proyectofebrero.ViewModel.Videos
+import com.example.proyectofebrero.Model.Videos
 
 class VideoAdapter(
     private val videoList: List<Videos>,
-    private val onVideoClick: (Videos) -> Unit // Callback para manejar el clic en un video
+    private val onVideoClick: (Videos) -> Unit // Callback para manejar el clic en el item video
 ) : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
     inner class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.video_title)
         private val descriptionTextView: TextView = itemView.findViewById(R.id.video_description)
+        private val buttonVideo: Button = itemView.findViewById(R.id.button_playvideo)
 
         fun bind(video: Videos) {
             titleTextView.text = video.title
             descriptionTextView.text = video.description
 
             // Manejar el clic en el elemento
-            itemView.setOnClickListener {
+            buttonVideo.setOnClickListener {
                 onVideoClick(video) // Llamar al callback con el video correspondiente
             }
         }

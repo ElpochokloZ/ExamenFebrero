@@ -15,10 +15,10 @@ class MediaAudioActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mediaaudio) // Asegúrate de que este layout exista
+        setContentView(R.layout.activity_mediaaudio)
 
         // Inicializar el PlayerView
-        playerView = findViewById(R.id.player_viewaudio) // Asegúrate de que este ID coincida con tu layout
+        playerView = findViewById(R.id.player_viewaudio)
 
         // Recuperar el ID del audio
         val audioResId = intent.getIntExtra("AUDIO_RES_ID", -1)
@@ -33,7 +33,7 @@ class MediaAudioActivity : AppCompatActivity() {
             val mediaItem = MediaItem.fromUri(uri)
             player.setMediaItem(mediaItem)
             player.prepare()
-            player.playWhenReady = true // Comienza a reproducir automáticamente
+            player.playWhenReady = true
         } else {
             // Manejo de error si el audioResId no es válido
             Log.e("MediaAudioActivity", "Audio resource ID is invalid.")
@@ -47,6 +47,6 @@ class MediaAudioActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        player.release() // Liberar el reproductor al destruir la actividad
+        player.release() // Liberar el reproductor
     }
 }

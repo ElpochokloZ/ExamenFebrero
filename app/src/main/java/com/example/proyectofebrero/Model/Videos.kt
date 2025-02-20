@@ -1,4 +1,4 @@
-package com.example.proyectofebrero.ViewModel
+package com.example.proyectofebrero.Model
 
 data class Videos(
     val title:String,

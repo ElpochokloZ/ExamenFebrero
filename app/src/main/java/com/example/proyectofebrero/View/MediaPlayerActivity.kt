@@ -21,7 +21,7 @@ class MediaPlayerActivity : AppCompatActivity() {
 
         // Inicializar ExoPlayer
         player = ExoPlayer.Builder(this).build()
-        binding.playerView.player = player // Aquí es donde asignas el player
+        binding.playerView.player = player
 
         // Crear el MediaItem usando el videoResId
         if (videoResId != -1) {
@@ -30,7 +30,7 @@ class MediaPlayerActivity : AppCompatActivity() {
             val mediaItem = MediaItem.fromUri(mediaItemUri)
             player.setMediaItem(mediaItem)
             player.prepare()
-            player.play() // Comienza a reproducir el video
+            player.play()
         } else {
             // Manejo de error si el videoResId no es válido
             Log.e("MediaPlayerActivity", "Video resource ID is invalid.")
@@ -44,6 +44,6 @@ class MediaPlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        player.release() // Liberar el reproductor al destruir la actividad
+        player.release() // Liberar el reproductor
     }
 }
